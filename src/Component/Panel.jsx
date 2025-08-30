@@ -20,7 +20,7 @@ function Panel({ onClickUploader, onClickCerrarSecion}) {
 
       {/* Renderiza el componente de subida de imágenes aquí */}
     <button onClick={onClickUploader}>
-      Haz clic aquí
+      Haz clic aquís
       </button>
 
       <div>
