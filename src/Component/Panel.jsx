@@ -11,9 +11,8 @@ function Panel({ onClickUploader, onClickCerrarSecion}) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-6 h-screen"> {/* h-screen added for full height */}
-
-        {/* Sidebar: Hidden on small screens, becomes a flex column spanning 1 on medium screens and up. */}
+      <div className="grid grid-cols-1 md:grid-cols-6 h-screen">
+        {" "}
         <div className="hidden md:flex md:col-span-1 justify-center bg-black rounded-2xl p-5 w-full items-start">
           <nav>
             <ul className="content-between flex flex-col gap-1">
@@ -25,7 +24,9 @@ function Panel({ onClickUploader, onClickCerrarSecion}) {
               </li>
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
                 <LuLayoutPanelLeft className="flex justify-center mt-1.5" />
-                <a href="#" className="font-bold mt-0.5">Panel</a>
+                <a href="#" className="font-bold mt-0.5">
+                  Panel
+                </a>
               </li>
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
                 <AiOutlineUser className="flex justify-center mt-1.5" />
@@ -67,17 +68,15 @@ function Panel({ onClickUploader, onClickCerrarSecion}) {
             </div>
           </nav>
         </div>
-
         {/* Main content area */}
         <div className="bg-black col-span-1 md:col-span-2 ml-5">
-          <div class= "text-center">
-            <h1 >Escuela</h1>
+          <div class="text-center">
+            <h1>Escuela</h1>
             <p class="mt-2.5">Estudiantes totales</p>
             <p>profesores totales</p>
             <p>actividades toatales</p>
           </div>
         </div>
-
         {/* Updates area */}
         <div className="col-span-1 md:col-span-3 ml-5">
           <h1>Actualizaciones</h1>
