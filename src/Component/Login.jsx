@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styles from "./stylesLogin.module.css";
-// Nota: axios fue importado pero no usado. Removí el import para este ejemplo.
-// import axios from "axios"; 
 
 function Login({ onClickRegister, onSuccessLogin }) {
   const [formData, setFormData] = useState({
@@ -52,7 +50,7 @@ function Login({ onClickRegister, onSuccessLogin }) {
     <>
       <div className={styles.Content}>
         <div className={styles.header}>
-          <h1>Login</h1>
+          <h1 class="pb-5 tracking-widest">Login</h1>
         </div>
         <div>
           <form onSubmit={handleSubmit}>
@@ -74,14 +72,20 @@ function Login({ onClickRegister, onSuccessLogin }) {
               onChange={handleChange}
               className={styles.input}
             />
-            <button className={styles.Content2} type="submit">Login</button>
+            <button
+              class="rounded-sm p-5 hover:border-blue-900 hover:border-2 border-2 border-black"
+              type="submit"
+            >
+              Login
+            </button>
           </form>
         </div>
         <div>
-          <p>
-            si aun no te haz registrado{" "}
-            <a href="#" onClick={onClickRegister}>
-              aqui
+          <p class="pt-2 ">
+            ¿Nuevo por aquí? {" "}
+            <a href="#" onClick={onClickRegister}
+            class= " text-blue-300">
+              ¡Regístrate!
             </a>
           </p>
         </div>
