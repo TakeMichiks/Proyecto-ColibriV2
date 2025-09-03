@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from "./stylesPanel.module.css";
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { AiOutlineUser, AiOutlineHome } from "react-icons/ai";
@@ -7,78 +7,85 @@ import { PiUserCircleGearThin } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
 import { IoImagesOutline } from "react-icons/io5";
 
-function Panel({ onClickUploader, onClickCerrarSecion}) {
 
+function Panel({ onClickUploader, onClickCerrarSecion }) {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-6 h-screen">
-        {" "}
-        <div className="hidden md:flex md:col-span-1 justify-center bg-black rounded-2xl p-5 w-full items-start">
+    
+      {/* .parent */}
+      <div className="grid grid-cols-6 grid-rows-5 gap-2 h-screen">
+        {/* .div1: Title/Header area */}
+        <div className="col-span-6 col-start-2 row-start-1 ml-6 mt-6 bg-gray-600 p-3 flex justify-center w-full rounded-md">
+          <h1 class="font-Michroma">Panel de Incio</h1>
+        </div>
+
+        {/* .div2: Navigation Panel */}
+        <div className="row-span-5 col-start-1 row-start-1 hidden md:flex flex-col justify-center m-2 bg-black rounded-2xl p-5 w-full items-center">
           <nav>
-            <ul className="content-between flex flex-col gap-1">
+            <ul className="flex flex-col gap-1">
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
-                <AiOutlineHome className="flex justify-center mt-1.5" />
+                <AiOutlineHome className="mt-1.5" />
                 <a href="#" className="font-bold mt-0.5">
                   Inicio
                 </a>
               </li>
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
-                <LuLayoutPanelLeft className="flex justify-center mt-1.5" />
+                <LuLayoutPanelLeft className="mt-1.5" />
                 <a href="#" className="font-bold mt-0.5">
                   Panel
                 </a>
               </li>
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
-                <AiOutlineUser className="flex justify-center mt-1.5" />
+                <AiOutlineUser className="mt-1.5" />
                 <a href="#" className="font-bold mt-0.5">
                   Estudiantes
                 </a>
               </li>
-              <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:hover:text-black ">
-                <LiaChalkboardTeacherSolid className="flex justify-center mt-1.5" />
+              <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
+                <LiaChalkboardTeacherSolid className="mt-1.5" />
                 <a href="#" className="font-bold mt-0.5">
                   Profesores
                 </a>
               </li>
               <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black ">
-                <PiUserCircleGearThin className="flex justify-center mt-1.5" />
+                <PiUserCircleGearThin className="mt-1.5" />
                 <a href="#" className="font-bold mt-0.5">
                   Ajustes
                 </a>
               </li>
             </ul>
-            <div className="flex flex-col h-32 w-36 rounded-2xl transition-all duration-1000 delay-1000 ease-in-out">
+            <div className="flex flex-col h-32 w-36 rounded-2xl mt-4">
               <button
                 onClick={onClickUploader}
-                className="hover:bg-white rounded-sm hover:text-black flex flex-row gap-1.5 content-center justify-center"
+                className="hover:bg-white rounded-sm hover:text-black flex flex-row gap-1.5 justify-center items-center"
               >
-                <IoImagesOutline className="flex justify-center mt-1.5" />
+                <IoImagesOutline className="mt-1.5" />
                 <span>Subir</span>
               </button>
-              <div>
-                <br />
-              </div>
+              <br />
               <button
                 onClick={onClickCerrarSecion}
-                className="hover:border-b-2 border-solid border-transparent hover:rounded-2xl hover:bg-white hover:border-b-fuchsia-700 hover:text-black flex flex-row gap-1.5 justify-center"
+                className="hover:border-b-2 border-solid border-transparent hover:rounded-2xl hover:bg-white hover:border-b-fuchsia-700 hover:text-black flex flex-row gap-1.5 justify-center items-center"
               >
-                <CiLogout className="flex justify-center mt-1.5" />
+                <CiLogout className="mt-1.5" />
                 Cerrar
               </button>
             </div>
           </nav>
         </div>
-        {/* Main content area */}
-        <div className="bg-black col-span-1 md:col-span-2 ml-5">
-          <div class="text-center">
-            <h1>Escuela</h1>
-            <p class="mt-2.5">Estudiantes totales</p>
+
+        {/* .div3: Main content area (School Stats) */}
+        <div className="bg-black col-span-2 row-span-4 ml-5 col-start-2 row-start-2 w-auto h-auto p-5 rounded-sm">
+          <div className="ml-2 flex flex-col gap-15 ">
+            <h1 class="">Escuela</h1>
+            <p className="mt-2.5">Estudiantes totales</p>
             <p>profesores totales</p>
             <p>actividades toatales</p>
           </div>
         </div>
-        {/* Updates area */}
-        <div className="col-span-1 md:col-span-3 ml-5">
+
+        {/* .div4: Updates area */}
+        <div className="col-span-2 row-span-4 col-start-4 row-start-2 p-5">
           <h1>Actualizaciones</h1>
         </div>
       </div>

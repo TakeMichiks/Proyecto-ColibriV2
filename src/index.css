@@ -1,6 +1,22 @@
 @import "tailwindcss";
+
+@font-face{
+  font-family: Michroma;
+  src: url("../src/assets/Fonts/Michroma-Regular.ttf");
+}
+
+@theme{
+  --font-Michroma:"Michroma", sans-serif;
+  --font-Audiowide:"Audiowide", sans-serif;
+}
+
+@font-face{
+  font-family: Audiowide;
+  src: url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap'); 
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif,;
   line-height: 1.5;
   font-weight: 400;
 
