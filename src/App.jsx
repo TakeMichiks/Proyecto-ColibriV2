@@ -4,56 +4,41 @@ import Register from "./Component/Register";
 import Login from "./Component/Login";
 import Panel from "./Component/Panel";
 import Img from "./Component/ImageUploader";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   const [activeSection, setActiveSection] = useState("login");
 
-  const handleShowLogin = () => {
-    setActiveSection("login");
-  };
-
-  const handleShowRegister = () => {
-    setActiveSection("register");
-  };
-    // Función para manejar el inicio de sesión exitoso
-  const handleLoginSuccess = () => {
-    setActiveSection('panel');
-  };
-
-  // Función para cerrar el panel (ej. logout)
-  const handleCloseImgUploader = () => {
-    setActiveSection('panel');
-  };
-
-  const handleOpenImgUploader = () =>{
-    setActiveSection("img")
-  };
-  const handleClosePanel = () => {
-    setActiveSection("login")
-  };
+  const handleShowLogin = () => setActiveSection("login");
+  const handleShowRegister = () => setActiveSection("register");
+  const handleLoginSuccess = () => setActiveSection("panel");
+  const handleOpenImgUploader = () => setActiveSection("img");
+  const handleCloseImgUploader = () => setActiveSection("panel");
+  const handleClosePanel = () => setActiveSection("login");
 
   return (
-    <>
+    <UserProvider>
       <div>
         {activeSection === "login" && (
           <Login 
-          onClickRegister={handleShowRegister}
-          onSuccessLogin={handleLoginSuccess} />
+            onClickRegister={handleShowRegister}
+            onSuccessLogin={handleLoginSuccess} 
+          />
         )}
         {activeSection === "register" && (
           <Register onClickLogin={handleShowLogin} />
         )}
         {activeSection === "panel" && (
-          <Panel onClickUploader={handleOpenImgUploader} 
-          onClickCerrarSecion={handleClosePanel}/>
-        )}
-        {activeSection === "img" &&(
-          <Img 
-          onClickCloseUploader={handleCloseImgUploader}
+          <Panel 
+            onClickUploader={handleOpenImgUploader} 
+            onClickCerrarSecion={handleClosePanel}
           />
         )}
+        {activeSection === "img" && (
+          <Img onClickCloseUploader={handleCloseImgUploader} />
+        )}
       </div>
-    </>
+    </UserProvider>
   );
 }
 

@@ -1,96 +1,78 @@
 import React, { useState } from "react";
-import styles from "./stylesLogin.module.css";
+import { useUser } from "../context/UserContext";
 
 function Login({ onClickRegister, onSuccessLogin }) {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const { login } = useUser(); // <-- usar contexto
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Intentando iniciar sesión con:", formData);
-
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Error login");
 
-      if (response.ok) { // Verifica si el status code es 200-299
-        const data = await response.json();
-        console.log("Login exitoso", data);
-        // Si el login es exitoso, llama a la función del componente padre
-        onSuccessLogin();
-      } else {
-        // Maneja respuestas que no son OK (ej. 401 Unauthorized)
-        const errorData = await response.json();
-        console.error("Error en el login:", errorData.message || 'Credenciales incorrectas');
-        alert(errorData.message || 'Credenciales incorrectas');
-      }
+      login({ _id: data.userId, email: data.email }); // Guardar usuario en contexto
+      onSuccessLogin(); // Cambiar sección a Panel
     } catch (error) {
-      // Maneja errores de red o del servidor
-      console.error("Error al conectar con el servidor:", error.message);
-      alert("Error al conectar con el servidor. Por favor, inténtalo de nuevo.");
+      console.error(error.message);
+      alert(error.message);
     }
   };
 
   return (
-    <>
-      <div className={styles.Content}>
-        <div className={styles.header}>
-          <h1 class="pb-5 tracking-widest">Login</h1>
+    <div className="flex justify-center items-center h-screen bg-gray-900">
+      <form 
+        onSubmit={handleSubmit} 
+        className="bg-gray-800 p-8 rounded-xl w-full max-w-sm shadow-lg"
+      >
+        <h2 className="text-2xl font-bold text-white mb-6 text-center">Iniciar Sesión</h2>
+
+        <div className="mb-4">
+          <label className="block text-gray-300 mb-1">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="tu@email.com"
+            required
+          />
         </div>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              id="Email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className={styles.input}
-            />
-            <input
-              type="password"
-              name="password"
-              id="Password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className={styles.input}
-            />
-            <button
-              class="rounded-sm p-5 hover:border-blue-900 hover:border-2 border-2 border-black"
-              type="submit"
-            >
-              Login
-            </button>
-          </form>
+
+        <div className="mb-6">
+          <label className="block text-gray-300 mb-1">Contraseña</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            placeholder="********"
+            required
+          />
         </div>
-        <div>
-          <p class="pt-2 ">
-            ¿Nuevo por aquí? {" "}
-            <a href="#" onClick={onClickRegister}
-            class= " text-blue-300">
-              ¡Regístrate!
-            </a>
-          </p>
-        </div>
-      </div>
-    </>
+
+        <button
+          type="submit"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-md font-semibold transition-colors mb-2"
+        >
+          Login
+        </button>
+
+        <button
+          type="button"
+          onClick={onClickRegister}
+          className="w-full bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-md font-semibold transition-colors"
+        >
+          Registrarse
+        </button>
+      </form>
+    </div>
   );
 }
 

@@ -1,93 +1,99 @@
+import React, { useState } from "react";
 
-import React, { useState } from 'react';
-
-function ImageUploader({onClickCloseUploader}) {
+function ImageUploader({ onClickCloseUploader }) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedImage(file);
-    }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setSelectedImage(file);
   };
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    if (selectedImage) {
-      const formData = new FormData();
-      formData.append("image", selectedImage);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedImage) return;
 
-      fetch("http://localhost:3000/api/upload", {
+    setLoading(true);
+    setMessage("");
+
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/upload", {
         method: "POST",
         body: formData,
-      })
-      .then(response => {
-        if (!response.ok) {
-          // Leer el mensaje de error del cuerpo de la respuesta
-          return response.text().then(text => { throw new Error(text) });
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Imagen subida con éxito:", data);
-        alert("Imagen subida con éxito!");
-      })
-      .catch(error => {
-        console.error("Error al subir la imagen:", error);
-        alert("Error al subir la imagen: " + error.message);
       });
-    } else {
-      console.log("No se ha encontrado ninguna imagen para subir");
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Error interno del servidor");
+
+      setMessage("Imagen subida con éxito!");
+      setSelectedImage(null);
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+      setMessage(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h2>Subir una imagen con JSX y React</h2>
-      
-      {/* Nuevo botón de autenticación */}
-      <p>
-        Si no puedes subir la imagen, primero debes autenticar tu backend.
-      </p>
-      <a href="http://localhost:3000/api/auth/google" target="_blank" rel="noopener noreferrer">
-        <button type="button">Autenticar con Google</button>
-      </a>
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
+      <div className="bg-gray-800 p-8 rounded-lg w-full max-w-sm text-white">
+        <h2 className="text-2xl font-bold mb-4 text-center">Subir Imagen</h2>
 
-      <hr style={{ margin: '20px 0' }}/>
-      
-      <form onSubmit={handleFormSubmit}>
-        <label htmlFor="imageInput">
-          <input
-            id="imageInput"
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
-          <button type="button" onClick={() => document.getElementById('imageInput').click()}>
-            {selectedImage ? `Imagen Seleccionada: ${selectedImage.name}` : 'Seleccionar Imagen'}
+        <form onSubmit={handleFormSubmit}>
+          <label className="block mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
+              id="imageInput"
+            />
+            <button
+              type="button"
+              onClick={() => document.getElementById("imageInput").click()}
+              className="w-full py-2 px-4 bg-purple-600 rounded-md hover:bg-purple-700 mb-2"
+            >
+              {selectedImage ? selectedImage.name : "Seleccionar Imagen"}
+            </button>
+          </label>
+
+          <button
+            type="submit"
+            disabled={!selectedImage || loading}
+            className="w-full py-2 px-4 bg-green-600 rounded-md hover:bg-green-700 mb-2"
+          >
+            {loading ? "Subiendo..." : "Subir Imagen"}
           </button>
-        </label>
-        
-        <br/><br/>
-        
-        <button type="submit" disabled={!selectedImage}>
-          Subir
-        </button>
-      </form>
-      <button onClick={onClickCloseUploader}>Salir</button>
+        </form>
 
-      {selectedImage && (
-        <div style={{ marginTop: '20px' }}>
-          <h4>Previsualización:</h4>
-          <img 
-            src={URL.createObjectURL(selectedImage)} 
-            alt="Previsualización" 
-            style={{ maxWidth: '300px', maxHeight: '300px', borderRadius: '4px' }}
-          />
-        </div>
-      )}
+        <button
+          onClick={onClickCloseUploader}
+          className="w-full py-2 px-4 bg-gray-600 rounded-md hover:bg-gray-700"
+        >
+          Salir
+        </button>
+
+        {message && (
+          <p className="mt-4 text-center text-sm text-yellow-300">{message}</p>
+        )}
+
+        {selectedImage && (
+          <div className="mt-4 text-center">
+            <h4 className="mb-2">Previsualización:</h4>
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Previsualización"
+              className="mx-auto rounded-md max-w-full max-h-60"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
