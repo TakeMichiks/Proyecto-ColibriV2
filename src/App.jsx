@@ -5,6 +5,7 @@ import Login from "./Component/Login";
 import Panel from "./Component/Panel";
 import Img from "./Component/ImageUploader";
 import { UserProvider } from "./context/UserContext";
+import PanelInicio from "./Component/PanelModalInicio";
 
 function App() {
   const [activeSection, setActiveSection] = useState("login");
@@ -15,7 +16,7 @@ function App() {
   const handleOpenImgUploader = () => setActiveSection("img");
   const handleCloseImgUploader = () => setActiveSection("panel");
   const handleClosePanel = () => setActiveSection("login");
-
+  const handleOpenPanelInicio = () => setActiveSection("panelInicio")
   return (
     <UserProvider>
       <div>
@@ -30,8 +31,15 @@ function App() {
         )}
         {activeSection === "panel" && (
           <Panel 
-            onClickUploader={handleOpenImgUploader} 
+            onClickUploader={handleOpenImgUploader}
+            onClickReturnPanel={handleCloseImgUploader}
             onClickCerrarSecion={handleClosePanel}
+            onClickPanelModalInicio={handleOpenPanelInicio}
+          />
+        )}
+        {activeSection === "panelInicio"&& (
+          <PanelInicio 
+          onClickReturnPanel={handleCloseImgUploader}
           />
         )}
         {activeSection === "img" && (

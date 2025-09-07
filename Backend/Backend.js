@@ -10,6 +10,7 @@ const cors = require('cors');
 
 const authRoutes = require("./routes/auth.routes.js");
 const panelRoutes = require("./routes/Panel.routes.js");
+const actividadesRoutes = require("./routes/Actividades.routes.js");
 const ActualizacionesRoutes = require("./routes/Actualizaciones.routes.js");
 
 const app = express();
@@ -206,6 +207,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/panel", panelRoutes);
 app.use('/api/actualizaciones', ActualizacionesRoutes);
+app.use("/api/tiposactividades", actividadesRoutes);
 
 // Manejo de rutas no encontradas
 // Manejo de rutas no encontradas

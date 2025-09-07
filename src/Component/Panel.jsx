@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import EscuelaModal from "./EscuelaModal";
+import PanelModalInicio from "./PanelModalInicio"
 import { LuLayoutPanelLeft } from "react-icons/lu";
 import { AiOutlineUser, AiOutlineHome } from "react-icons/ai";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
@@ -9,7 +10,7 @@ import { CiLogout } from "react-icons/ci";
 import { IoImagesOutline } from "react-icons/io5";
 import { FaPencilAlt } from "react-icons/fa";
 
-export default function Panel({ onClickUploader, onClickCerrarSecion }) {
+export default function Panel({ onClickUploader, onClickCerrarSecion , onClickPanelModalInicio}) {
   const { user, logout } = useUser();
   const [actividades, setActividades] = useState(null);
   const [actualizaciones, setActualizaciones] = useState(null);
@@ -126,7 +127,9 @@ const handleSaveActualizaciones = async (e) => {
               </a>
             </li>
             <li className="flex justify-center items-center gap-2 h-12 w-36 rounded-sm hover:border transition-all hover:bg-white hover:text-black">
-              <a href="#" className="font-bold mt-0.5">
+              <a href="#" className="font-bold mt-0.5" onClick={()=> {
+                onClickPanelModalInicio();
+              }}>
                 Panel
               </a>
             </li>
@@ -196,9 +199,10 @@ const handleSaveActualizaciones = async (e) => {
               <p className="text-gray-400">Cargando datos...</p>
             ) : actualizaciones ? (
               <>
+                <p>Próxima: {actualizaciones.actualizacionesProxima}</p>
                 <p>Actual: {actualizaciones.actualizacionesActual}</p>
                 <p>Anterior: {actualizaciones.actualizacionesAnterior}</p>
-                <p>Próxima: {actualizaciones.actualizacionesProxima}</p>
+                
               </>
             ) : (
               <p>No se encontraron actualizaciones para este usuario.</p>
